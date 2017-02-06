@@ -62,19 +62,21 @@ public class MainClass {
         connection.close();
     }
 
-    private static void runCrawlers() {
+    private static void runCrawlers() throws Exception {
+        // init new controller
+        VisitedPagesController controller = new VisitedPagesController();
         // run crawler's instances
         for (int i = 0; i < crawlersNumber; i++) {
-            Crawler crawler = new Crawler(rabbimqHost);
-            crawler.start();
+            Crawler crawler = new Crawler(rabbimqHost, controller);
+            crawler.run();
         }
     }
 
-    private static void runDownloaders() {
+    private static void runDownloaders() throws Exception {
         // run downloader's instances
         for (int i = 0; i < downloadersNumber; i++) {
             Downloader downloader = new Downloader(rabbimqHost);
-            downloader.start();
+            downloader.run();
         }
     }
 

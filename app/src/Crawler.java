@@ -44,11 +44,9 @@ public class Crawler {
                     throws IOException {
                 String message = new String(body, "UTF-8");
                 try {
-                    String page = Parser.getPage(message);
-
                     List<String> links = new ArrayList<String>();
                     List<String> files = new ArrayList<String>();
-                    Parser.parsePage(page, links, files);
+                    Parser.parsePage(message, links, files);
 
                     // TODO: stop after PARSE_LIMIT steps
                     putLinksForParsingToQueue(links);

@@ -66,6 +66,7 @@ public class MainClass {
         // init new controller
         VisitedPagesController controller = new VisitedPagesController();
         // run crawler's instances
+        // TODO: run as instances for other machines
         for (int i = 0; i < crawlersNumber; i++) {
             Crawler crawler = new Crawler(rabbimqHost, controller);
             crawler.run();
@@ -74,6 +75,7 @@ public class MainClass {
 
     private static void runDownloaders() throws Exception {
         // run downloader's instances
+        // TODO: run as instances for other machines
         for (int i = 0; i < downloadersNumber; i++) {
             Downloader downloader = new Downloader(rabbimqHost);
             downloader.run();

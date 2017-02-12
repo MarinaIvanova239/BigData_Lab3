@@ -13,11 +13,16 @@ public class Parser {
             throws Exception {
         Document doc = Jsoup.connect(currentLink).get();
         // get links and add them to list
-        Elements linksAsElements = doc.select("body a");
+        Elements linksAsElements = doc.select("a[href]");
         for (Element eachLink: linksAsElements) {
             links.add(eachLink.toString());
         }
+        // TODO: add all links to list
+        // TODO: add to controller all pages
         // get files and add them to list
-        // TODO:
+        Elements filesAsElements = doc.select("link[href]");
+        for (Element eachFile: filesAsElements) {
+            files.add(eachFile.toString());
+        }
     }
 }

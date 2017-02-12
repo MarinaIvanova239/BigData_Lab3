@@ -62,9 +62,7 @@ public class MainClass {
         connection.close();
     }
 
-    private static void runCrawlers() throws Exception {
-        // init new controller
-        VisitedPagesController controller = new VisitedPagesController();
+    private static void runCrawlers(VisitedPagesController controller) throws Exception {
         // run crawler's instances
         // TODO: run as instances for other machines
         for (int i = 0; i < crawlersNumber; i++) {
@@ -73,11 +71,11 @@ public class MainClass {
         }
     }
 
-    private static void runDownloaders() throws Exception {
+    private static void runDownloaders(VisitedPagesController controller) throws Exception {
         // run downloader's instances
         // TODO: run as instances for other machines
         for (int i = 0; i < downloadersNumber; i++) {
-            Downloader downloader = new Downloader(rabbimqHost);
+            Downloader downloader = new Downloader(rabbimqHost, controller);
             downloader.run();
         }
     }
@@ -89,7 +87,10 @@ public class MainClass {
 
         initRabbitMQ();
 
-        runCrawlers();
-        runDownloaders();
+        // init new controller
+        VisitedPagesController controller = new VisitedPagesController();
+
+        runCrawlers(controller);
+        runDownloaders(controller);
     }
 }

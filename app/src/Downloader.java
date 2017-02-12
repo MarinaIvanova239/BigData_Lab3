@@ -1,8 +1,12 @@
 package app.src;
 
 import com.rabbitmq.client.*;
+import org.jsoup.Jsoup;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 public class Downloader {
 
@@ -10,9 +14,11 @@ public class Downloader {
 
     private String rabbitmqHost;
     private Channel rabbitmqChannel;
+    private VisitedPagesController controller;
 
-    Downloader(String rabbitmqHost) {
+    Downloader(String rabbitmqHost, VisitedPagesController controller) {
         this.rabbitmqHost = rabbitmqHost;
+        this.controller = controller;
     }
 
     public void run() throws Exception {
@@ -37,7 +43,8 @@ public class Downloader {
                 String message = new String(body, "UTF-8");
                 try {
                     // TODO: stop after DOWNLOAD_LIMIT steps
-                    downloadFile(message);
+                    String dir = controller.getVisitedLinkDir(message);
+                    downloadFile(message, dir);
                 } catch (Exception e) {
                     System.out.println("Exception was handled: " + e.toString());
                 } finally {
@@ -50,7 +57,24 @@ public class Downloader {
         rabbitmqChannel.basicConsume(MainClass.DOWNLOADING_QUEUE_NAME, false, consumer);
     }
 
-    public void downloadFile(String fileName) {
-        // TODO: download file
+    public void downloadFile(String link, String saveDir) throws Exception {
+
+        // if there is no saveDir, this page wasn't visited
+        if (saveDir == null)
+            return;
+
+        // get name of file and path to save directory
+        String fileName = link.substring(link.lastIndexOf("/") + 1, link.length());
+        String saveFilePath = saveDir + File.separator + fileName;
+
+        String html = Jsoup.connect(link).get().html();
+
+        // TODO: use dfs or kv storage
+        // opens an output stream and save new file
+        FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+        byte[] htmlInBytes = html.getBytes();
+        outputStream.write(htmlInBytes, 0, htmlInBytes.length);
+
+        outputStream.close();
     }
 }

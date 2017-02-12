@@ -14,4 +14,11 @@ public class VisitedPagesController {
     public void addVisitedLink(String link) {
         visitedPages.put(link, null);
     }
+
+    public String getVisitedLinkDir(String link) {
+        if (visitedPages.containsKey(link)) {
+            return visitedPages.get(link);
+        }
+        return null;
+    }
 }

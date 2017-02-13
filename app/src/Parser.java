@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.util.List;
 
 public class Parser {
@@ -18,11 +19,10 @@ public class Parser {
             links.add(eachLink.toString());
         }
         // TODO: add all links to list
-        // TODO: add to controller all pages
         // get files and add them to list
         Elements filesAsElements = doc.select("link[href]");
         for (Element eachFile: filesAsElements) {
-            files.add(eachFile.toString());
+            files.add(currentLink + File.separator + eachFile.toString());
         }
     }
 }

@@ -38,21 +38,29 @@ public class Crawler {
 
         // set personal handler to consumer
         final Consumer consumer = new DefaultConsumer(rabbitmqChannel) {
+            private int depth = 0;
+
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope,
                                        AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
                 String message = new String(body, "UTF-8");
                 try {
+                    if (depth > PARSE_LIMIT) {
+                        getChannel().close();
+                    }
+
+                    // get new links and files to download
                     List<String> links = new ArrayList<String>();
                     List<String> files = new ArrayList<String>();
                     Parser.parsePage(message, links, files);
 
-                    // TODO: stop after PARSE_LIMIT steps
+                    // put files and links to rabbimq queues
                     putLinksForParsingToQueue(links);
                     putLinksForDownloadingToQueue(files);
 
                     controller.addVisitedLink(message);
+                    depth++;
                 } catch (Exception e) {
                     System.out.println("Exception was handled: " + e.toString());
                 } finally {

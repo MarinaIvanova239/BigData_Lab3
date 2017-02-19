@@ -52,12 +52,11 @@ public class Crawler {
 
                     // get new links and files to download
                     List<String> links = new ArrayList<String>();
-                    List<String> files = new ArrayList<String>();
-                    Parser.parsePage(message, links, files);
+                    Parser.parsePage(message, links);
 
                     // put files and links to rabbimq queues
                     putLinksForParsingToQueue(links);
-                    putLinksForDownloadingToQueue(files);
+                    putLinksForDownloadingToQueue(message);
 
                     controller.addVisitedLink(message);
                     depth++;
@@ -84,10 +83,10 @@ public class Crawler {
         }
     }
 
-    private void putLinksForDownloadingToQueue(List<String> files) throws Exception {
-        int filesSize = files.size();
+    private void putLinksForDownloadingToQueue(String... files) throws Exception {
+        int filesSize = files.length;
         for (int i = 0; i < filesSize; i++) {
-            String message = files.get(i);
+            String message = files[i];
             rabbitmqChannel.basicPublish("", MainClass.DOWNLOADING_QUEUE_NAME,
                     MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         }

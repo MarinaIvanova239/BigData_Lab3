@@ -16,6 +16,7 @@ public class MainClass {
     private static int downloadersNumber = 0;
     private static String rabbimqHost = "localhost";
     private static String initMessage = null;
+    private static String mode = "start";
 
     private static int readConfig(String fileName) throws Exception {
         FileReader input = new FileReader(fileName);
@@ -34,7 +35,9 @@ public class MainClass {
                 rabbimqHost = array[1];
             } else if (array[0].equals("initMessage")) {
                 initMessage = array[1];
-            }else {
+            } else if (array[0].equals("mode")) {
+                mode = array[1];
+            } else {
                 return 1;
             }
         }
@@ -80,17 +83,34 @@ public class MainClass {
         }
     }
 
+    private static VisitedPagesController getController() {
+        return null;
+    }
+
     public static void main(String[] args) throws Exception {
         int resultCode = readConfig(args[0]);
         if (resultCode == 1)
             System.exit(1);
 
-        initRabbitMQ();
+        if (mode.equals("start")) {
+            initRabbitMQ();
 
-        // init new controller
-        VisitedPagesController controller = new VisitedPagesController();
+            // init new controller
+            VisitedPagesController controller = new VisitedPagesController();
 
-        runCrawlers(controller);
-        runDownloaders(controller);
+            runCrawlers(controller);
+            runDownloaders(controller);
+        } else if (mode.equals("update")) {
+            // TODO: get info about controller
+            VisitedPagesController controller = getController();
+            if (crawlersNumber > 0) {
+                runCrawlers(controller);
+            }
+            if (downloadersNumber > 0) {
+                runDownloaders(controller);
+            }
+        } else {
+            System.out.print("Unknown mode!");
+        }
     }
 }

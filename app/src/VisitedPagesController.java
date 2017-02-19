@@ -19,11 +19,8 @@ public class VisitedPagesController {
     }
 
     public String getVisitedLinkDir(String link) {
-        String parentLink = link.substring(0, link.lastIndexOf("/") - 1);
         if (visitedPages.containsKey(link)) {
             return visitedPages.get(link);
-        } else if (visitedPages.containsKey(parentLink)) {
-            return visitedPages.get(parentLink);
         }
         return null;
     }

@@ -89,7 +89,6 @@ public class Downloader {
         }
 
         // get page to download
-        // TODO: check how to get not html files
         String html = Jsoup.connect(link).get().html();
         byte[] htmlInBytes = html.getBytes();
 

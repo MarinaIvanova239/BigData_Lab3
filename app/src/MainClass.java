@@ -102,7 +102,7 @@ public class MainClass {
             runDownloaders(controller);
         } else if (mode.equals("update")) {
             // TODO: get info about controller
-            // TODO; run controller on another machine
+            // TODO: run controller on another machine
             VisitedPagesController controller = getController();
             if (crawlersNumber > 0) {
                 runCrawlers(controller);

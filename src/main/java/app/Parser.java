@@ -1,11 +1,10 @@
-package app.src;
+package java.app;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.util.List;
 
 public class Parser {

@@ -1,4 +1,0 @@
-crawlers: 5
-downloaders: 8
-rabbitmqHost: localhost
-initMessage: https://www.wikipedia.org

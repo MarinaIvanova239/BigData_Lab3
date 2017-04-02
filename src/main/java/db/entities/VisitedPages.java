@@ -23,4 +23,17 @@ public class VisitedPages {
     public void setLink(String link) {
         this.link = link;
     }
+
+    public VisitedPages() {}
+
+    public VisitedPages(String link) {
+        this.link = link;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "VisitedPages[id=%s, link='%s']",
+                id, link);
+    }
 }

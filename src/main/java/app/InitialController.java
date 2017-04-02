@@ -16,8 +16,8 @@ public class InitialController {
     private Environment env;
 
     public void initRabbit() throws Exception {
-        rabbitTemplate.convertAndSend("for_parsing",
-                env.getProperty("rabbitmq.init_message"));
+        // send initial message to queue for parsing
+        rabbitTemplate.convertAndSend("for_parsing", env.getProperty("rabbitmq.init_message"));
     }
 
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
+import java.db.entities.VisitedPages;
+import java.db.repositories.VisitedPagesRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class CrawlerController {
     private AmqpTemplate rabbitTemplate;
     @Autowired
     private Environment env;
+    @Autowired
+    VisitedPagesRepository visitedPagesRepository;
 
     private static final int PARSE_LIMIT = 100000;
     private static int counter = 0;
@@ -28,10 +32,12 @@ public class CrawlerController {
             List<String> links = new ArrayList<String>();
             Parser.parsePage(message, links);
 
+            // save link to visited pages table
+            visitedPagesRepository.save(new VisitedPages(message));
+
+            // save all links in queue
             putLinksForParsingToQueue(links);
             putLinksForDownloadingToQueue(message);
-
-            // TODO: add link to mongo visited pages
 
             counter++;
         }
@@ -41,18 +47,15 @@ public class CrawlerController {
         int linksSize = links.size();
         for (int i = 0; i < linksSize; i++) {
             String message = links.get(i);
-            // TODO: check property in MongoDB
-            rabbitTemplate.convertAndSend(
-                    env.getProperty("for_parsing"), message);
+            // if page wasn't visited, put it to queue
+            if (visitedPagesRepository.findByLink(message).size() == 0) {
+                rabbitTemplate.convertAndSend("for_parsing", message);
+            }
         }
     }
 
-    private void putLinksForDownloadingToQueue(String... files) {
-        int filesSize = files.length;
-        for (int i = 0; i < filesSize; i++) {
-            String message = files[i];
-            rabbitTemplate.convertAndSend(
-                    env.getProperty("for_downloading"), message);
-        }
+    private void putLinksForDownloadingToQueue(String file) {
+        // put page in
+        rabbitTemplate.convertAndSend("for_downloading", file);
     }
 }

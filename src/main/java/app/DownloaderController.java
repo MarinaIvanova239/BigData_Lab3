@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.db.entities.PageContent;
-import java.db.repositories.PageContentRepository;
 
 @Controller
 @EnableRabbit
@@ -15,9 +14,7 @@ public class DownloaderController {
 
     private static final int DOWNLOAD_LIMIT = 100000;
     private static int counter = 0;
-
-    @Autowired
-    private PageContentRepository pageContentRepository;
+    private MongoDatabase database;
 
     @RabbitListener(queues = "for_downloading")
     public void runDownloader(String message) throws Exception {
@@ -32,6 +29,6 @@ public class DownloaderController {
         String htmlContent = Jsoup.connect(link).get().html();
         // save it in database
         PageContent content = new PageContent(link, htmlContent);
-        pageContentRepository.save(content);
+        database.contains(content);
     }
 }

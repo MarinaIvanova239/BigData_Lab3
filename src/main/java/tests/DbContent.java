@@ -1,10 +1,7 @@
-package java.db.entities;
+package java.tests;
 
-import org.springframework.data.annotation.Id;
+public class DbContent {
 
-public class PageContent {
-
-    @Id
     private String link;
     private String content;
 
@@ -24,17 +21,10 @@ public class PageContent {
         this.content = content;
     }
 
-    public PageContent() {}
+    public DbContent() {}
 
-    public PageContent(String link, String content) {
+    public DbContent(String link, String content) {
         this.link = link;
         this.content = content;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "PageContent[link='%s', content='%s']",
-                link, content);
     }
 }

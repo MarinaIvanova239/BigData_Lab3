@@ -8,7 +8,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import java.db.entities.VisitedPages;
-import java.db.repositories.VisitedPagesRepository;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +19,7 @@ public class CrawlerController {
     private AmqpTemplate rabbitTemplate;
     @Autowired
     private Environment env;
-    @Autowired
-    VisitedPagesRepository visitedPagesRepository;
+    private MongoDatabase database;
 
     private static final int PARSE_LIMIT = 100000;
     private static int counter = 0;
@@ -33,7 +31,7 @@ public class CrawlerController {
             Parser.parsePage(message, links);
 
             // save link to visited pages table
-            visitedPagesRepository.save(new VisitedPages(message));
+            database.contains(new VisitedPages(message));
 
             // save all links in queue
             putLinksForParsingToQueue(links);
@@ -48,7 +46,7 @@ public class CrawlerController {
         for (int i = 0; i < linksSize; i++) {
             String message = links.get(i);
             // if page wasn't visited, put it to queue
-            if (visitedPagesRepository.findByLink(message).size() == 0) {
+            if (!database.containLink(message)) {
                 rabbitTemplate.convertAndSend("for_parsing", message);
             }
         }

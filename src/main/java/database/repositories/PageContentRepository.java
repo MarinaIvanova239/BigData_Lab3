@@ -1,7 +1,7 @@
-package java.db.repositories;
+package database.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import java.db.entities.PageContent;
+import database.entities.PageContent;
 
 public interface PageContentRepository extends MongoRepository<PageContent, String> {
 }

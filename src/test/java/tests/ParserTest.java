@@ -1,4 +1,4 @@
-package java.tests;
+package tests;
 
 import org.junit.Test;
 

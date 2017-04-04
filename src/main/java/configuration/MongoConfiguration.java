@@ -1,4 +1,4 @@
-package java.app;
+package configuration;
 
 import com.mongodb.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;

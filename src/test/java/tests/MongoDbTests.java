@@ -1,18 +1,18 @@
-package java.tests;
+package tests;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import java.app.MongoConfiguration;
-import java.app.MongoDatabase;
+import configuration.MongoConfiguration;
+import database.MongoDbService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {MongoConfiguration.class})
 public class MongoDbTests {
 
-    private MongoDatabase database;
+    private MongoDbService database;
 
     @Before
     public void testSetup() {

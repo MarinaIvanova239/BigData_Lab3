@@ -1,4 +1,4 @@
-package java.db.entities;
+package database.entities;
 
 import org.springframework.data.annotation.Id;
 

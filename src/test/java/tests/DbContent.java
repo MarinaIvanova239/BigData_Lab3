@@ -1,4 +1,4 @@
-package java.tests;
+package tests;
 
 public class DbContent {
 

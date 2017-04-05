@@ -46,6 +46,8 @@ public class RabbitConfiguration {
     @Bean
     public AmqpAdmin amqpAdmin() {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitConnectionFactory());
+        rabbitAdmin.declareQueue(crawlerQueue());
+        rabbitAdmin.declareQueue(downloaderQueue());
         return rabbitAdmin;
     }
 
@@ -53,5 +55,15 @@ public class RabbitConfiguration {
     public AmqpTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(rabbitConnectionFactory());
         return rabbitTemplate;
+    }
+
+    @Bean
+    public Queue crawlerQueue() {
+        return new Queue("for_parsing");
+    }
+
+    @Bean
+    public Queue downloaderQueue() {
+        return new Queue("for_downloading");
     }
 }

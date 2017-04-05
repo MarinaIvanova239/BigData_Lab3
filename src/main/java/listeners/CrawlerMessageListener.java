@@ -1,12 +1,15 @@
 package listeners;
 
+import common.Parser;
 import database.MongoDbService;
+import database.entities.VisitedPages;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrawlerMessageListener implements MessageListener {
@@ -25,8 +28,8 @@ public class CrawlerMessageListener implements MessageListener {
     public void onMessage(Message message) {
         try {
             String link = new String(message.getBody(), "UTF-8");
-            System.out.println("Received:" + link);
-            /*if (counter < PARSE_LIMIT) {
+            //System.out.println("Received:" + link);
+            if (counter < PARSE_LIMIT) {
                 List<String> linksOnPage = new ArrayList<String>();
                 Parser.parsePage(link, linksOnPage);
 
@@ -38,7 +41,7 @@ public class CrawlerMessageListener implements MessageListener {
                 putLinksForDownloadingToQueue(link);
 
                 counter++;
-            }*/
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

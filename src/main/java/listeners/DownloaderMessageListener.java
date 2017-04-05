@@ -19,11 +19,11 @@ public class DownloaderMessageListener implements MessageListener {
     public void onMessage(Message message) {
         try {
             String link = new String(message.getBody(), "UTF-8");
-            System.out.println("Received: " + link);
-            /*if (counter < DOWNLOAD_LIMIT) {
+            //System.out.println("Received: " + link);
+            if (counter < DOWNLOAD_LIMIT) {
                 downloadFile(link);
                 counter++;
-            }*/
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

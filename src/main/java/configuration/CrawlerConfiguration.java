@@ -5,8 +5,10 @@ import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("CRAWLER")
 public class CrawlerConfiguration {
 
     @Bean(name = "customListener")

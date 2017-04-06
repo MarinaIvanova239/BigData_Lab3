@@ -1,4 +1,4 @@
-package configuration;
+package com.spbstu.configuration;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;

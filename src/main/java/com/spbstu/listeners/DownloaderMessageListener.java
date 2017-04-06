@@ -1,7 +1,7 @@
-package listeners;
+package com.spbstu.listeners;
 
-import database.MongoDbService;
-import database.entities.PageContent;
+import com.spbstu.database.MongoDbService;
+import com.spbstu.database.entities.PageContent;
 import org.jsoup.Jsoup;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
@@ -32,7 +32,7 @@ public class DownloaderMessageListener implements MessageListener {
     public void downloadFile(String link) throws Exception {
         // get content of file
         String htmlContent = Jsoup.connect(link).get().html();
-        // save it in database
+        // save it in com.spbstu.database
         PageContent content = new PageContent(link, htmlContent);
         database.contains(content);
     }

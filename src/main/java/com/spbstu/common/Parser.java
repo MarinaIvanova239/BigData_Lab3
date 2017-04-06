@@ -1,4 +1,4 @@
-package common;
+package com.spbstu.common;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

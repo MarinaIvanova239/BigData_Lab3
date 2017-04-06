@@ -1,4 +1,4 @@
-package common;
+package com.spbstu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

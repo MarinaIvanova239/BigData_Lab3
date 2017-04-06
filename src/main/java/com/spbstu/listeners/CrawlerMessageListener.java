@@ -1,8 +1,8 @@
-package listeners;
+package com.spbstu.listeners;
 
-import common.Parser;
-import database.MongoDbService;
-import database.entities.VisitedPages;
+import com.spbstu.common.Parser;
+import com.spbstu.database.MongoDbService;
+import com.spbstu.database.entities.VisitedPages;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;

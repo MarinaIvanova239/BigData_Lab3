@@ -1,9 +1,9 @@
-package database;
+package com.spbstu.database;
 
-import database.entities.PageContent;
-import database.entities.VisitedPages;
-import database.repositories.PageContentRepository;
-import database.repositories.VisitedPagesRepository;
+import com.spbstu.database.entities.PageContent;
+import com.spbstu.database.entities.VisitedPages;
+import com.spbstu.database.repositories.PageContentRepository;
+import com.spbstu.database.repositories.VisitedPagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

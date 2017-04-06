@@ -1,4 +1,4 @@
-package configuration;
+package com.spbstu.configuration;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableMongoRepositories
-@PropertySource("classpath:/../../resources/application.properties")
+@PropertySource("classpath:../../../../resources/application.properties")
 public class MongoConfiguration extends AbstractMongoConfiguration {
 
     @Autowired
@@ -55,6 +55,6 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
 
     @Override
     protected String getMappingBasePackage() {
-        return "database.repositories";
+        return "com.spbstu.database.repositories";
     }
 }

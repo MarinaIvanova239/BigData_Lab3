@@ -1,6 +1,6 @@
-package configuration;
+package com.spbstu.configuration;
 
-import listeners.CrawlerMessageListener;
+import com.spbstu.listeners.DownloaderMessageListener;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
@@ -8,16 +8,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("CRAWLER")
-public class CrawlerConfiguration {
+@Profile("DOWNLOADER")
+public class DownloaderConfiguration {
 
     @Bean(name = "customListener")
     public MessageListener customListener() {
-        return new CrawlerMessageListener();
+        return new DownloaderMessageListener();
     }
 
     @Bean(name = "customQueue")
     public Queue customQueue() {
-        return new Queue("for_parsing");
+        return new Queue("for_downloading");
     }
 }

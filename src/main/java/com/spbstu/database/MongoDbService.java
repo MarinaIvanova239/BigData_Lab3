@@ -5,6 +5,7 @@ import com.spbstu.database.entities.VisitedPages;
 import com.spbstu.database.repositories.PageContentRepository;
 import com.spbstu.database.repositories.VisitedPagesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,16 @@ public class MongoDbService {
     private VisitedPagesRepository visitedPagesRepository;
     @Autowired
     private PageContentRepository pageContentRepository;
+
+    @Bean
+    public VisitedPagesRepository visitedPagesRepository() {
+        return visitedPagesRepository;
+    }
+
+    @Bean
+    public PageContentRepository pageContantRepository() {
+        return pageContentRepository;
+    }
 
     public void reset() {
         visitedPagesRepository.deleteAll();

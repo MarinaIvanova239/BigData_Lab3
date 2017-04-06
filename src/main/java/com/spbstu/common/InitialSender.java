@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("INITIAL")
-@PropertySource("classpath:../../../../resources/application.properties")
+@PropertySource("classpath:application.properties")
 public class InitialSender {
 
     @Autowired

@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableMongoRepositories
-@PropertySource("classpath:../../../../resources/application.properties")
+@PropertySource("classpath:application.properties")
 public class MongoConfiguration extends AbstractMongoConfiguration {
 
     @Autowired

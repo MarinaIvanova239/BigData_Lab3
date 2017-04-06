@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@PropertySource("classpath:/../../resources/application.properties")
+@PropertySource("classpath:application.properties")
 public class RabbitConfiguration {
 
     @Autowired

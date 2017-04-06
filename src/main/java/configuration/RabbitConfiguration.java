@@ -36,8 +36,8 @@ public class RabbitConfiguration {
     public ConnectionFactory rabbitConnectionFactory() {
         CachingConnectionFactory connectionFactory =
                 new CachingConnectionFactory(env.getProperty("rabbitmq.host"));
-        connectionFactory.setUsername("rabbitmq.admin");
-        connectionFactory.setPassword("rabbitmq.password");
+        connectionFactory.setUsername(env.getProperty("rabbitmq.admin"));
+        connectionFactory.setPassword(env.getProperty("rabbitmq.password"));
         connectionFactory.setPort(Integer.valueOf(env.getProperty("rabbitmq.port")));
         connectionFactory.setVirtualHost(env.getProperty("rabbitmq.vhost"));
         return connectionFactory;

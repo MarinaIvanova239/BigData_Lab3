@@ -28,6 +28,7 @@ public class CrawlerMessageListener implements MessageListener {
     public void onMessage(Message message) {
         try {
             String link = new String(message.getBody(), "UTF-8");
+            //System.out.println("Received:" + link);
             if (counter < PARSE_LIMIT) {
                 List<String> linksOnPage = new ArrayList<String>();
                 Parser.parsePage(link, linksOnPage);

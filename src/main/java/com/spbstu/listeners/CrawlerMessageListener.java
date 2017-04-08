@@ -2,10 +2,11 @@ package com.spbstu.listeners;
 
 import com.spbstu.common.Parser;
 import com.spbstu.database.MongoDbService;
-import com.spbstu.database.entities.VisitedPages;
+import com.spbstu.database.documents.VisitedPages;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
@@ -28,7 +29,6 @@ public class CrawlerMessageListener implements MessageListener {
     public void onMessage(Message message) {
         try {
             String link = new String(message.getBody(), "UTF-8");
-            //System.out.println("Received:" + link);
             if (counter < PARSE_LIMIT) {
                 List<String> linksOnPage = new ArrayList<String>();
                 Parser.parsePage(link, linksOnPage);
@@ -53,13 +53,13 @@ public class CrawlerMessageListener implements MessageListener {
             String message = links.get(i);
             // if page wasn't visited, put it to queue
             if (!database.containLink(message)) {
-                rabbitTemplate.send("for_parsing", new Message(message.getBytes(), null));
+                rabbitTemplate.send("for_parsing", new Message(message.getBytes(), new MessageProperties()));
             }
         }
     }
 
-    private void putLinksForDownloadingToQueue(String file) {
+    private void putLinksForDownloadingToQueue(String link) {
         // put page in downloading queue
-        rabbitTemplate.send("for_downloading", new Message(file.getBytes(), null));
+        rabbitTemplate.send("for_downloading", new Message(link.getBytes(), new MessageProperties()));
     }
 }

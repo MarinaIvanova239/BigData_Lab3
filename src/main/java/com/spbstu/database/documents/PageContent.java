@@ -1,12 +1,19 @@
-package com.spbstu.database.entities;
+package com.spbstu.database.documents;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class PageContent {
 
     @Id
+    private String id;
     private String link;
     private String content;
+
+    public String getId() {
+        return id;
+    }
 
     public String getLink() {
         return link;
@@ -14,6 +21,10 @@ public class PageContent {
 
     public String getContent() {
         return content;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setLink(String link) {
@@ -34,7 +45,7 @@ public class PageContent {
     @Override
     public String toString() {
         return String.format(
-                "PageContent[link='%s', content='%s']",
-                link, content);
+                "PageContent[id='%s', link='%s', content='%s']",
+                id, link, content);
     }
 }

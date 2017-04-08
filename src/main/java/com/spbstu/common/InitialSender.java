@@ -2,6 +2,7 @@ package com.spbstu.common;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
@@ -21,7 +22,7 @@ public class InitialSender {
     public void runInitial() throws Exception {
         // send initial message to queue for parsing
         String initialMessage = env.getProperty("rabbitmq.init_message");
-        rabbitTemplate.send("for_parsing", new Message(initialMessage.getBytes(), null));
+        rabbitTemplate.send("for_parsing", new Message(initialMessage.getBytes(), new MessageProperties()));
     }
 
 }

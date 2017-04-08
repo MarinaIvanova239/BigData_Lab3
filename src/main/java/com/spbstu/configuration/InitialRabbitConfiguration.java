@@ -1,11 +1,12 @@
 package com.spbstu.configuration;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,25 +15,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@Profile({"CRAWLER", "DOWNLOADER"})
+@Profile("INITIAL")
 @PropertySource("classpath:application.properties")
-public class RabbitConfiguration {
+public class InitialRabbitConfiguration {
 
     @Autowired
     Environment env;
-    @Autowired
-    MessageListener customListener;
-    @Autowired
-    Queue customQueue;
-
-    @Bean
-    public SimpleMessageListenerContainer messageListenerContainer() {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(rabbitConnectionFactory());
-        container.setQueueNames(customQueue.getName());
-        container.setMessageListener(customListener);
-        return container;
-    }
 
     @Bean
     public ConnectionFactory rabbitConnectionFactory() {

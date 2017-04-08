@@ -1,14 +1,16 @@
-package com.spbstu.database.entities;
+package com.spbstu.database.documents;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class VisitedPages {
 
     @Id
-    private Integer id;
+    private String id;
     private String link;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -16,7 +18,7 @@ public class VisitedPages {
         return link;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -12,12 +12,10 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.io.IOException;
 
 @Configuration
-@EnableMongoRepositories
 @PropertySource("classpath:application.properties")
 public class MongoConfiguration extends AbstractMongoConfiguration {
 
@@ -51,10 +49,5 @@ public class MongoConfiguration extends AbstractMongoConfiguration {
     @Override
     public Mongo mongo() throws Exception {
         return new Mongo();
-    }
-
-    @Override
-    protected String getMappingBasePackage() {
-        return "com.spbstu.database.repositories";
     }
 }

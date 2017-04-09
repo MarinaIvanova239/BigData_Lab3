@@ -15,7 +15,7 @@ public class Parser {
         // get links and add them to list
         Elements linksAsElements = doc.select("a[href]");
         for (Element eachLink: linksAsElements) {
-            links.add(eachLink.toString());
+            links.add(eachLink.attr("abs:href"));
         }
     }
 }

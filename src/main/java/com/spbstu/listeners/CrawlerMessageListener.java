@@ -8,7 +8,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +18,33 @@ public class CrawlerMessageListener implements MessageListener {
     @Autowired
     private AmqpTemplate rabbitTemplate;
     @Autowired
-    private Environment env;
-    @Autowired
     private MongoDbService database;
+    @Autowired
+    private ConfigurableApplicationContext context;
 
     private static final int PARSE_LIMIT = 100000;
     private static int counter = 0;
+    private static String CRAWLER_QUEUE = "for_parsing";
+    private static String DOWNLOADER_QUEUE = "for_downloading";
 
     @Override
     public void onMessage(Message message) {
         try {
             String link = new String(message.getBody(), "UTF-8");
-            if (counter < PARSE_LIMIT) {
-                List<String> linksOnPage = new ArrayList<String>();
-                Parser.parsePage(link, linksOnPage);
 
-                // save link to visited pages table
-                database.contains(new VisitedPages(link));
+            List<String> linksOnPage = new ArrayList<String>();
+            Parser.parsePage(link, linksOnPage);
 
-                // save all links in queue
-                putLinksForParsingToQueue(linksOnPage);
-                putLinksForDownloadingToQueue(link);
+            // save link to visited pages table
+            database.contains(new VisitedPages(link));
 
-                counter++;
+            // save all links in queue
+            putLinksForParsingToQueue(linksOnPage);
+            putLinksForDownloadingToQueue(link);
+            counter++;
+
+            if (counter > PARSE_LIMIT) {
+                context.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,13 +57,13 @@ public class CrawlerMessageListener implements MessageListener {
             String message = links.get(i);
             // if page wasn't visited, put it to queue
             if (!database.containLink(message)) {
-                rabbitTemplate.send("for_parsing", new Message(message.getBytes(), new MessageProperties()));
+                rabbitTemplate.send(CRAWLER_QUEUE, new Message(message.getBytes(), new MessageProperties()));
             }
         }
     }
 
     private void putLinksForDownloadingToQueue(String link) {
         // put page in downloading queue
-        rabbitTemplate.send("for_downloading", new Message(link.getBytes(), new MessageProperties()));
+        rabbitTemplate.send(DOWNLOADER_QUEUE, new Message(link.getBytes(), new MessageProperties()));
     }
 }

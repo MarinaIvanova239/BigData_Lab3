@@ -1,4 +1,4 @@
-package tests;
+package com.spbstu.tests;
 
 import org.junit.Test;
 

@@ -15,16 +15,6 @@ public class MongoDbService {
     @Autowired
     private PageContentRepository pageContentRepository;
 
-    public void reset() {
-        visitedPagesRepository.drop();
-        pageContentRepository.drop();
-    }
-
-    public void createCollections() {
-        pageContentRepository.createCollection();
-        visitedPagesRepository.createCollection();
-    }
-
     public void contains(PageContent... contents) {
         for (PageContent content: contents) {
             pageContentRepository.save(content);

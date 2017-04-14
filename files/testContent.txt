@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Пример Web-страницы</title>
+	</head>
+	<body>
+		<h1>Справочник</h1>
+		<p>Приветствую. <strong><em>Расскажу</em></strong> о языке <strong>html</strong>.</p>
+	</body>
+</html>

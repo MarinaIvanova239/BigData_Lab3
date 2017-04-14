@@ -7,5 +7,6 @@
 	<body>
 		<h1>Справочник</h1>
 		<p>Приветствую. <strong><em>Расскажу</em></strong> о языке <strong>html</strong>.</p>
+		<p><a href="http://expected-link.ru/">Абсолютная ссылка</a></p>
 	</body>
 </html>

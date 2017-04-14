@@ -13,6 +13,11 @@ public class Parser {
             throws Exception {
         Document doc = Jsoup.connect(currentLink).get();
         // get links and add them to list
+        getLinks(doc, links);
+    }
+
+    public static void getLinks(Document doc, List<String> links) {
+        // get links and add them to list
         Elements linksAsElements = doc.select("a[href]");
         for (Element eachLink: linksAsElements) {
             links.add(eachLink.attr("abs:href"));
